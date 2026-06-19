@@ -18,8 +18,7 @@ interface HourlyForecastProps {
 export function HourlyForecast({ hourly }: HourlyForecastProps) {
   const { unit } = useUIStore();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const next24 = getNext24Hours(hourly);
-
+  const next24 = getNext24Hours(hourly as any);
   // Calcula min/max para barra de temperatura
   const temps = next24.map((h) => h.temperature);
   const minTemp = Math.min(...temps);
