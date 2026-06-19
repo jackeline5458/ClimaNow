@@ -20,10 +20,10 @@ export function HourlyForecast({ hourly }: HourlyForecastProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const next24 = getNext24Hours(hourly as any);
   // Calcula min/max para barra de temperatura
-  const temps = next24.map((h) => h.temperature);
-  const minTemp = Math.min(...temps);
-  const maxTemp = Math.max(...temps);
-  const tempRange = maxTemp - minTemp || 1;
+  const temps = next24.map((h) => Number(h.temperature) || 0);
+const minTemp = Math.min(...temps);
+const maxTemp = Math.max(...temps);
+const tempRange = maxTemp - minTemp || 1;
 
   return (
     <motion.div
