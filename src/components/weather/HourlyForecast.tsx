@@ -21,9 +21,9 @@ export function HourlyForecast({ hourly }: HourlyForecastProps) {
   const next24 = getNext24Hours(hourly as any);
   // Calcula min/max para barra de temperatura
   const temps = next24.map((h) => Number(h.temperature) || 0);
-const minTemp = Math.min(...temps);
-const maxTemp = Math.max(...temps);
-const tempRange = maxTemp - minTemp || 1;
+  const minTemp = Math.min(...temps);
+  const maxTemp = Math.max(...temps);
+  const tempRange = maxTemp - minTemp || 1;
 
   return (
     <motion.div
@@ -45,7 +45,8 @@ const tempRange = maxTemp - minTemp || 1;
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {next24.map((hour, index) => {
-          const tempNorm = (hour.temperature - minTemp) / tempRange;
+          // 🔥 CORREÇÃO AQUI: força temperatura como número
+          const tempNorm = ((Number(hour.temperature) || 0) - minTemp) / tempRange;
           const isNow = index === 0;
 
           return (
@@ -65,12 +66,12 @@ const tempRange = maxTemp - minTemp || 1;
 
               {/* Ícone */}
               <span className="text-2xl" role="img" aria-label={`clima às ${formatHour(hour.time)}`}>
-                {getWeatherIcon(hour.weatherCode, hour.isDay)}
+                {getWeatherIcon(Number(hour.weatherCode) || 0, Boolean(hour.isDay))}
               </span>
 
               {/* Temperatura */}
               <span className="text-sm font-semibold">
-                {formatTemp(hour.temperature, unit)}
+                {formatTemp(Number(hour.temperature) || 0, unit)}
               </span>
 
               {/* Barra de temperatura relativa */}
@@ -87,11 +88,11 @@ const tempRange = maxTemp - minTemp || 1;
               </div>
 
               {/* Probabilidade de chuva (se > 10%) */}
-              {hour.precipitationProbability > 10 && (
+              {Number(hour.precipitationProbability) > 10 && (
                 <div className="flex items-center gap-0.5">
                   <span className="text-[10px]">💧</span>
                   <span className="text-[10px] text-blue-200">
-                    {formatPrecipProbability(hour.precipitationProbability)}
+                    {formatPrecipProbability(Number(hour.precipitationProbability) || 0)}
                   </span>
                 </div>
               )}
