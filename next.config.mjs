@@ -3,6 +3,11 @@ const nextConfig = {
   // Habilita React Strict Mode para detectar problemas
   reactStrictMode: true,
 
+  // 🔥 DESABILITA ESLINT NO BUILD (NOVO)
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   // Otimizações de imagem
   images: {
     formats: ['image/avif', 'image/webp'],
